@@ -83,3 +83,33 @@ class AppColors {
     },
   );
 }
+
+extension ColorWithValuesCompat on Color {
+  /// Compatibility layer for Flutter versions where `Color.withValues` isn't
+  /// available.
+  ///
+  /// Matches the newer API by allowing individual channel overrides using
+  /// normalized (0.0–1.0) values.
+  Color withValues({
+    double? alpha,
+    double? red,
+    double? green,
+    double? blue,
+  }) {
+    final a = alpha == null ? this.alpha : _componentFromNormalized(alpha);
+    final r = red == null ? this.red : _componentFromNormalized(red);
+    final g = green == null ? this.green : _componentFromNormalized(green);
+    final b = blue == null ? this.blue : _componentFromNormalized(blue);
+
+    return Color.fromARGB(a, r, g, b);
+  }
+
+  static int _componentFromNormalized(double value) {
+    if (value.isNaN) {
+      return 0;
+    }
+
+    final clamped = value.clamp(0.0, 1.0) as double;
+    return (clamped * 255).round();
+  }
+}
