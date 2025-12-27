@@ -99,6 +99,12 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    // Google Play Core libraries for deferred components and dynamic delivery
     implementation 'com.google.android.play:feature-delivery:2.1.0'
     implementation 'com.google.android.play:core-common:2.0.3'
+
+    // Play Core KTX provides the Tasks API classes needed by Flutter's
+    // PlayStoreDeferredComponentManager (OnFailureListener, OnSuccessListener, Task)
+    implementation 'com.google.android.play:core-ktx:1.8.1'
 }
