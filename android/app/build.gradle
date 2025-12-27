@@ -99,6 +99,16 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    // Google Play Core modular libraries for deferred components and dynamic delivery
+    // These replace the deprecated monolithic com.google.android.play:core library
     implementation 'com.google.android.play:feature-delivery:2.1.0'
-    implementation 'com.google.android.play:core-common:2.0.3'
+    implementation 'com.google.android.play:review:2.0.1'
+    implementation 'com.google.android.play:app-update:2.1.0'
+}
+
+configurations.all {
+    // Exclude the deprecated monolithic Play Core library to prevent duplicate class conflicts
+    // with the newer modular libraries (feature-delivery, review, app-update)
+    exclude group: 'com.google.android.play', module: 'core'
 }
