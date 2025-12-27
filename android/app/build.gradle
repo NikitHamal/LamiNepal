@@ -100,4 +100,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.android.play:feature-delivery:2.1.0'
+    implementation 'com.google.android.play:core-common:2.0.3'
 }
