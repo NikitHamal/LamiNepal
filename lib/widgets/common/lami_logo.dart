@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 
@@ -32,11 +33,10 @@ class LamiLogo extends StatelessWidget {
           child: Center(
             child: Text(
               'L',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: size * 0.55,
                 fontWeight: FontWeight.w700,
                 color: isWhite ? AppColors.primaryRed : AppColors.white,
-                fontFamily: 'Poppins',
                 height: 1,
               ),
             ),
@@ -89,11 +89,10 @@ class LamiLogoLarge extends StatelessWidget {
           child: Center(
             child: Text(
               'L',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: size * 0.6,
                 fontWeight: FontWeight.w700,
                 color: AppColors.primaryRed,
-                fontFamily: 'Poppins',
                 height: 1,
               ),
             ),
@@ -143,11 +142,10 @@ class LamiLogoIcon extends StatelessWidget {
       child: Center(
         child: Text(
           'L',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             fontSize: size * 0.55,
             fontWeight: FontWeight.w700,
             color: AppColors.primaryRed,
-            fontFamily: 'Poppins',
             height: 1,
           ),
         ),
