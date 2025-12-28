@@ -74,7 +74,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
     final result = await showDialog<NepaliDate>(
       context: context,
       builder: (context) => _BsDatePickerDialog(
-        initialDate: _dobNepali ?? NepaliDate(today.year - 20, 1, 1),
+        initialDate: _dobNepali ?? NepaliDate(year: today.year - 20, month: 1, day: 1),
         minYear: today.year - 80,
         maxYear: today.year - 18,
       ),
@@ -1243,7 +1243,7 @@ class _BsDatePickerDialogState extends State<_BsDatePickerDialog> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop(
-                        NepaliDate(_selectedYear, _selectedMonth, _selectedDay),
+                        NepaliDate(year: _selectedYear, month: _selectedMonth, day: _selectedDay),
                       );
                     },
                     style: ElevatedButton.styleFrom(
