@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/splash/presentation/splash_screen.dart';
 import '../../features/onboarding/presentation/onboarding_screen.dart';
-import '../../features/home/presentation/main_shell.dart';
 import '../../features/home/presentation/home_screen.dart';
-import '../../features/matches/presentation/matches_screen.dart';
-import '../../features/chat/presentation/chat_screen.dart';
-import '../../features/profile/presentation/profile_screen.dart';
+import '../../features/calendar/presentation/calendar_screen.dart';
+import '../../features/registration/presentation/privacy_policy_screen.dart';
+import '../../features/registration/presentation/registration_documents_screen.dart';
+import '../../features/registration/presentation/registration_form_screen.dart';
 import '../utils/preferences_service.dart';
 
 /// App route names
@@ -16,17 +16,16 @@ class AppRoutes {
   static const String splash = '/';
   static const String onboarding = '/onboarding';
   static const String home = '/home';
-  static const String matches = '/matches';
-  static const String chat = '/chat';
-  static const String profile = '/profile';
+  static const String calendar = '/calendar';
+  static const String registration = '/registration';
+  static const String registrationDocuments = '/registration/documents';
+  static const String registrationForm = '/registration/form';
 }
 
 /// App router configuration using GoRouter
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'root');
-  static final GlobalKey<NavigatorState> _shellNavigatorKey =
-      GlobalKey<NavigatorState>(debugLabel: 'shell');
 
   static PreferencesService? _prefsService;
 
@@ -55,40 +54,33 @@ class AppRouter {
         name: 'onboarding',
         builder: (context, state) => const OnboardingScreen(),
       ),
-      // Main Shell with Bottom Navigation
-      ShellRoute(
-        navigatorKey: _shellNavigatorKey,
-        builder: (context, state, child) => MainShell(child: child),
-        routes: [
-          GoRoute(
-            path: AppRoutes.home,
-            name: 'home',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: HomeScreen(),
-            ),
-          ),
-          GoRoute(
-            path: AppRoutes.matches,
-            name: 'matches',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: MatchesScreen(),
-            ),
-          ),
-          GoRoute(
-            path: AppRoutes.chat,
-            name: 'chat',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: ChatScreen(),
-            ),
-          ),
-          GoRoute(
-            path: AppRoutes.profile,
-            name: 'profile',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: ProfileScreen(),
-            ),
-          ),
-        ],
+      // Home Screen (standalone, no shell)
+      GoRoute(
+        path: AppRoutes.home,
+        name: 'home',
+        builder: (context, state) => const HomeScreen(),
+      ),
+      // Calendar Screen
+      GoRoute(
+        path: AppRoutes.calendar,
+        name: 'calendar',
+        builder: (context, state) => const CalendarScreen(),
+      ),
+      // Registration Flow
+      GoRoute(
+        path: AppRoutes.registration,
+        name: 'registration',
+        builder: (context, state) => const PrivacyPolicyScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.registrationDocuments,
+        name: 'registration-documents',
+        builder: (context, state) => const RegistrationDocumentsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.registrationForm,
+        name: 'registration-form',
+        builder: (context, state) => const RegistrationFormScreen(),
       ),
     ],
     errorBuilder: (context, state) => ErrorPage(error: state.error),
