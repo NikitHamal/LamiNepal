@@ -284,7 +284,7 @@ class _CalendarGrid extends StatelessWidget {
                       style: AppTypography.labelSmall.copyWith(
                         color: isSaturday
                             ? AppColors.primaryRed
-                            : AppColors.white.withValues(alpha: 0.6),
+                            : AppColors.white.withOpacity(0.6),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -339,7 +339,7 @@ class _CalendarGrid extends StatelessWidget {
                                   day.nepaliDate.day),
                               style: AppTypography.titleSmall.copyWith(
                                 color: !isCurrentMonth
-                                    ? AppColors.white.withValues(alpha: 0.3)
+                                    ? AppColors.white.withOpacity(0.3)
                                     : isSelected || isToday
                                         ? AppColors.white
                                         : isSaturday
@@ -455,7 +455,7 @@ class _DateDetails extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: AppColors.white.withValues(alpha: 0.3),
+                            color: AppColors.white.withOpacity(0.3),
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -473,7 +473,7 @@ class _DateDetails extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: AppColors.white.withValues(alpha: 0.1),
+                            color: AppColors.white.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: const Icon(
@@ -603,7 +603,7 @@ class _MoonPhaseWidget extends StatelessWidget {
             gradient: RadialGradient(
               colors: [
                 AppColors.white.withOpacity(0.8),
-                AppColors.white.withValues(alpha: 0.3),
+                AppColors.white.withOpacity(0.3),
               ],
             ),
           ),
@@ -700,7 +700,7 @@ class _EventsSection extends StatelessWidget {
               Text(
                 'Events',
                 style: AppTypography.labelMedium.copyWith(
-                  color: AppColors.white.withValues(alpha: 0.6),
+                  color: AppColors.white.withOpacity(0.6),
                 ),
               ),
               const Spacer(),
@@ -731,7 +731,7 @@ class _EventsSection extends StatelessWidget {
             Text(
               'No events for this day',
               style: AppTypography.bodySmall.copyWith(
-                color: AppColors.white.withValues(alpha: 0.5),
+                color: AppColors.white.withOpacity(0.5),
               ),
             ),
         ],

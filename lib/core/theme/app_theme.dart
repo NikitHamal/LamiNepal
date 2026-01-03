@@ -72,7 +72,7 @@ class AppTheme {
       );
 
   // Card Theme
-  static CardTheme get _cardTheme => CardTheme(
+  static CardThemeData get _cardTheme => CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -243,7 +243,7 @@ class AppTheme {
       );
 
   // Dialog Theme
-  static DialogTheme get _dialogTheme => DialogTheme(
+  static DialogThemeData get _dialogTheme => DialogThemeData(
         backgroundColor: AppColors.surface,
         elevation: 8,
         shape: RoundedRectangleBorder(

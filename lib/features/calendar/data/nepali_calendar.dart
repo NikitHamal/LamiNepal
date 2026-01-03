@@ -4,6 +4,7 @@
 /// The Nepali calendar (Bikram Sambat) is a lunisolar calendar that is
 /// approximately 56 years and 8.5 months ahead of the Gregorian calendar.
 /// Each month can have 29-32 days, and the pattern varies year to year.
+library;
 
 import 'nepali_dates_data.dart';
 
@@ -110,7 +111,8 @@ class NepaliDate {
   int get hashCode => year.hashCode ^ month.hashCode ^ day.hashCode;
 
   @override
-  String toString() => '$year-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
+  String toString() =>
+      '$year-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
 
   /// Formats the date in a readable format
   String format({bool showYear = true, bool nepali = false}) {
@@ -241,9 +243,18 @@ class NepaliCalendar {
   /// Gets month name in English
   static String getMonthName(int month) {
     const months = [
-      'Baishakh', 'Jestha', 'Ashadh', 'Shrawan',
-      'Bhadra', 'Ashwin', 'Kartik', 'Mangsir',
-      'Poush', 'Magh', 'Falgun', 'Chaitra'
+      'Baishakh',
+      'Jestha',
+      'Ashadh',
+      'Shrawan',
+      'Bhadra',
+      'Ashwin',
+      'Kartik',
+      'Mangsir',
+      'Poush',
+      'Magh',
+      'Falgun',
+      'Chaitra'
     ];
     return months[(month - 1) % 12];
   }
@@ -251,9 +262,18 @@ class NepaliCalendar {
   /// Gets month name in Nepali (Devanagari)
   static String getMonthNameNepali(int month) {
     const months = [
-      'बैशाख', 'जेठ', 'असार', 'श्रावण',
-      'भाद्र', 'आश्विन', 'कार्तिक', 'मंसिर',
-      'पुष', 'माघ', 'फाल्गुन', 'चैत्र'
+      'बैशाख',
+      'जेठ',
+      'असार',
+      'श्रावण',
+      'भाद्र',
+      'आश्विन',
+      'कार्तिक',
+      'मंसिर',
+      'पुष',
+      'माघ',
+      'फाल्गुन',
+      'चैत्र'
     ];
     return months[(month - 1) % 12];
   }
@@ -261,22 +281,47 @@ class NepaliCalendar {
   /// Gets short month name in Nepali
   static String getMonthNameNepaliShort(int month) {
     const months = [
-      'बैशाख', 'जेठ', 'असार', 'साउन',
-      'भदौ', 'असोज', 'कात्तिक', 'मंसिर',
-      'पुस', 'माघ', 'फागुन', 'चैत'
+      'बैशाख',
+      'जेठ',
+      'असार',
+      'साउन',
+      'भदौ',
+      'असोज',
+      'कात्तिक',
+      'मंसिर',
+      'पुस',
+      'माघ',
+      'फागुन',
+      'चैत'
     ];
     return months[(month - 1) % 12];
   }
 
   /// Gets day name in English (1 = Sunday)
   static String getDayName(int weekday) {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const days = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday'
+    ];
     return days[(weekday - 1) % 7];
   }
 
   /// Gets day name in Nepali (1 = Sunday)
   static String getDayNameNepali(int weekday) {
-    const days = ['आइतबार', 'सोमबार', 'मंगलबार', 'बुधबार', 'बिहीबार', 'शुक्रबार', 'शनिबार'];
+    const days = [
+      'आइतबार',
+      'सोमबार',
+      'मंगलबार',
+      'बुधबार',
+      'बिहीबार',
+      'शुक्रबार',
+      'शनिबार'
+    ];
     return days[(weekday - 1) % 7];
   }
 
@@ -312,15 +357,28 @@ class NepaliCalendar {
 
   /// Gets the Gregorian month range that corresponds to a Nepali month
   static String getGregorianMonthRange(int nepaliYear, int nepaliMonth) {
-    final firstDay = NepaliDate(year: nepaliYear, month: nepaliMonth, day: 1).toDateTime();
+    final firstDay =
+        NepaliDate(year: nepaliYear, month: nepaliMonth, day: 1).toDateTime();
     final lastDay = NepaliDate(
       year: nepaliYear,
       month: nepaliMonth,
       day: getDaysInMonth(nepaliYear, nepaliMonth),
     ).toDateTime();
 
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
 
     final startMonth = monthNames[firstDay.month - 1];
     final endMonth = monthNames[lastDay.month - 1];
@@ -386,11 +444,13 @@ class NepaliCalendarMonth {
     if (firstWeekday > 1) {
       final prevMonth = month == 1 ? 12 : month - 1;
       final prevYear = month == 1 ? year - 1 : year;
-      final daysInPrevMonth = NepaliCalendar.getDaysInMonth(prevYear, prevMonth);
+      final daysInPrevMonth =
+          NepaliCalendar.getDaysInMonth(prevYear, prevMonth);
 
       for (int i = firstWeekday - 2; i >= 0; i--) {
         final day = daysInPrevMonth - i;
-        final nepaliDate = NepaliDate(year: prevYear, month: prevMonth, day: day);
+        final nepaliDate =
+            NepaliDate(year: prevYear, month: prevMonth, day: day);
         days.add(NepaliCalendarDay(
           nepaliDate: nepaliDate,
           gregorianDate: nepaliDate.toDateTime(),
@@ -404,7 +464,8 @@ class NepaliCalendarMonth {
     for (int day = 1; day <= daysInMonth; day++) {
       final nepaliDate = NepaliDate(year: year, month: month, day: day);
       final gregorianDate = nepaliDate.toDateTime();
-      final isHoliday = gregorianDate.weekday == 6; // Saturday is holiday in Nepal
+      final isHoliday =
+          gregorianDate.weekday == 6; // Saturday is holiday in Nepal
 
       days.add(NepaliCalendarDay(
         nepaliDate: nepaliDate,
@@ -422,7 +483,8 @@ class NepaliCalendarMonth {
       final nextYear = month == 12 ? year + 1 : year;
 
       for (int day = 1; day <= remainingDays; day++) {
-        final nepaliDate = NepaliDate(year: nextYear, month: nextMonth, day: day);
+        final nepaliDate =
+            NepaliDate(year: nextYear, month: nextMonth, day: day);
         days.add(NepaliCalendarDay(
           nepaliDate: nepaliDate,
           gregorianDate: nepaliDate.toDateTime(),
@@ -442,5 +504,6 @@ class NepaliCalendarMonth {
   String get monthNameNepali => NepaliCalendar.getMonthNameNepali(month);
 
   /// Gets the Gregorian date range string
-  String get gregorianRange => NepaliCalendar.getGregorianMonthRange(year, month);
+  String get gregorianRange =>
+      NepaliCalendar.getGregorianMonthRange(year, month);
 }

@@ -4,6 +4,7 @@
 ///
 /// Each year has 12 months with varying days (29-32 days)
 /// The pattern is not regular and must be stored explicitly
+library;
 
 class NepaliDatesData {
   NepaliDatesData._();
@@ -129,9 +130,21 @@ class NepaliDatesData {
 
   /// Tithi names in Nepali
   static const List<String> tithiNames = [
-    'प्रतिपदा', 'द्वितीया', 'तृतीया', 'चतुर्थी', 'पञ्चमी',
-    'षष्ठी', 'सप्तमी', 'अष्टमी', 'नवमी', 'दशमी',
-    'एकादशी', 'द्वादशी', 'त्रयोदशी', 'चतुर्दशी', 'पूर्णिमा/औंसी'
+    'प्रतिपदा',
+    'द्वितीया',
+    'तृतीया',
+    'चतुर्थी',
+    'पञ्चमी',
+    'षष्ठी',
+    'सप्तमी',
+    'अष्टमी',
+    'नवमी',
+    'दशमी',
+    'एकादशी',
+    'द्वादशी',
+    'त्रयोदशी',
+    'चतुर्दशी',
+    'पूर्णिमा/औंसी'
   ];
 
   /// Paksha (fortnight) names
