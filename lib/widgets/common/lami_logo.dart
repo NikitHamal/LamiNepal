@@ -80,7 +80,7 @@ class LamiLogoLarge extends StatelessWidget {
             borderRadius: BorderRadius.circular(size * 0.2),
             boxShadow: [
               BoxShadow(
-                color: AppColors.shadow.withValues(alpha: 0.3),
+                color: AppColors.shadow.withOpacity(0.3),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -112,7 +112,7 @@ class LamiLogoLarge extends StatelessWidget {
         Text(
           'लामी नेपाल',
           style: AppTypography.titleMedium.copyWith(
-            color: AppColors.white.withValues(alpha: 0.9),
+            color: AppColors.white.withOpacity(0.9),
             fontWeight: FontWeight.w400,
           ),
         ),

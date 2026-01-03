@@ -100,7 +100,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
                         children: [
                           Icon(
                             Icons.keyboard_double_arrow_down_rounded,
-                            color: AppColors.primaryRed.withValues(alpha: 0.5),
+                            color: AppColors.primaryRed.withOpacity(0.5),
                             size: 32,
                           ),
                           const SizedBox(height: 4),
@@ -192,7 +192,8 @@ class _StepDot extends StatelessWidget {
                 : Text(
                     '$step',
                     style: AppTypography.labelMedium.copyWith(
-                      color: isActive ? AppColors.white : AppColors.textTertiary,
+                      color:
+                          isActive ? AppColors.white : AppColors.textTertiary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -244,7 +245,7 @@ class _PolicyHeader extends StatelessWidget {
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: AppColors.primaryRed.withValues(alpha: 0.15),
+              color: AppColors.primaryRed.withOpacity(0.15),
               borderRadius: BorderRadius.circular(16),
             ),
             child: const Icon(
@@ -298,50 +299,62 @@ class _PolicyContent extends StatelessWidget {
           icon: Icons.info_outline,
           title: 'सूचना सङ्कलन',
           titleEnglish: 'Information Collection',
-          content: 'ग्राहकहरूको व्यक्तिगत तथा विवाह सम्बन्धी विवरणहरू, साथै कुकीजद्वारा सङ्कलित गैर-व्यक्तिगत डेटा संकलन गरिन्छ।',
-          contentEnglish: 'The platform gathers personal details and non-personal data through cookies.',
+          content:
+              'ग्राहकहरूको व्यक्तिगत तथा विवाह सम्बन्धी विवरणहरू, साथै कुकीजद्वारा सङ्कलित गैर-व्यक्तिगत डेटा संकलन गरिन्छ।',
+          contentEnglish:
+              'The platform gathers personal details and non-personal data through cookies.',
         ),
         _PolicySection(
           icon: Icons.data_usage_outlined,
           title: 'डेटा प्रयोग',
           titleEnglish: 'Data Usage',
-          content: 'उपयुक्त जीवनसाथी मिलान, सेवा सुधार, तथा नयाँ सुविधाको सूचना प्रदान गर्न संकलित डेटा प्रयोग हुन्छ।',
-          contentEnglish: 'Collected information enables matchmaking, service enhancement, and feature notifications.',
+          content:
+              'उपयुक्त जीवनसाथी मिलान, सेवा सुधार, तथा नयाँ सुविधाको सूचना प्रदान गर्न संकलित डेटा प्रयोग हुन्छ।',
+          contentEnglish:
+              'Collected information enables matchmaking, service enhancement, and feature notifications.',
         ),
         _PolicySection(
           icon: Icons.share_outlined,
           title: 'तेस्रो पक्ष साझेदारी',
           titleEnglish: 'Third-Party Disclosure',
-          content: 'ग्राहकको स्पष्ट सहमति बिना व्यक्तिगत डेटा तेस्रो पक्षलाई बेचिँदैन वा भाडामा दिइँदैन। तर कानूनी आदेशमा खुलासा गर्न सकिन्छ।',
-          contentEnglish: 'Personal data isn\'t sold or rented without explicit user consent, though legal orders may require disclosure.',
+          content:
+              'ग्राहकको स्पष्ट सहमति बिना व्यक्तिगत डेटा तेस्रो पक्षलाई बेचिँदैन वा भाडामा दिइँदैन। तर कानूनी आदेशमा खुलासा गर्न सकिन्छ।',
+          contentEnglish:
+              'Personal data isn\'t sold or rented without explicit user consent, though legal orders may require disclosure.',
         ),
         _PolicySection(
           icon: Icons.security_outlined,
           title: 'सुरक्षा उपाय',
           titleEnglish: 'Security Measures',
-          content: 'इन्क्रिप्शन, फायरवाल आदि सुरक्षात्मक उपायमार्फत व्यक्तिगत जानकारी सुरक्षित राखिन्छ।',
+          content:
+              'इन्क्रिप्शन, फायरवाल आदि सुरक्षात्मक उपायमार्फत व्यक्तिगत जानकारी सुरक्षित राखिन्छ।',
           contentEnglish: 'Encryption and firewalls protect user information.',
         ),
         _PolicySection(
           icon: Icons.cookie_outlined,
           title: 'कुकीज',
           titleEnglish: 'Cookies',
-          content: 'प्रयोगकर्ताहरूले ब्राउजर सेटिङ्गमार्फत एनालिटिक्स र अनुभव सुधारका लागि कुकी प्राथमिकताहरू व्यवस्थापन गर्न सक्छन्।',
-          contentEnglish: 'Users can manage cookie preferences through browser settings for analytics and experience improvement.',
+          content:
+              'प्रयोगकर्ताहरूले ब्राउजर सेटिङ्गमार्फत एनालिटिक्स र अनुभव सुधारका लागि कुकी प्राथमिकताहरू व्यवस्थापन गर्न सक्छन्।',
+          contentEnglish:
+              'Users can manage cookie preferences through browser settings for analytics and experience improvement.',
         ),
         _PolicySection(
           icon: Icons.child_care_outlined,
           title: 'बालबालिका गोपनीयता',
           titleEnglish: 'Children\'s Privacy',
-          content: 'हाम्रा सेवाहरू १८ वर्ष मुनिका व्यक्तिहरूका लागि लक्षित छैनन्।',
+          content:
+              'हाम्रा सेवाहरू १८ वर्ष मुनिका व्यक्तिहरूका लागि लक्षित छैनन्।',
           contentEnglish: 'Services exclude minors under 18.',
         ),
         _PolicySection(
           icon: Icons.update_outlined,
           title: 'नीति अद्यावधिक',
           titleEnglish: 'Policy Updates',
-          content: 'गोपनीयता नीतिहरू आवश्यकता अनुसार अद्यावधिक गरिन्छ र वेबसाइटमा पोस्ट गरिन्छ।',
-          contentEnglish: 'Privacy policies are updated as needed and posted on the website.',
+          content:
+              'गोपनीयता नीतिहरू आवश्यकता अनुसार अद्यावधिक गरिन्छ र वेबसाइटमा पोस्ट गरिन्छ।',
+          contentEnglish:
+              'Privacy policies are updated as needed and posted on the website.',
         ),
       ],
     );
@@ -372,7 +385,7 @@ class _PolicySection extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+        border: Border.all(color: AppColors.border.withOpacity(0.5)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -447,7 +460,7 @@ class _AgreementSection extends StatelessWidget {
         color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadow.withValues(alpha: 0.1),
+            color: AppColors.shadow.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, -4),
           ),
@@ -459,7 +472,8 @@ class _AgreementSection extends StatelessWidget {
           children: [
             // Checkbox
             InkWell(
-              onTap: hasReadPolicy ? () => onAgreedChanged(!agreedToPolicy) : null,
+              onTap:
+                  hasReadPolicy ? () => onAgreedChanged(!agreedToPolicy) : null,
               borderRadius: BorderRadius.circular(8),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),

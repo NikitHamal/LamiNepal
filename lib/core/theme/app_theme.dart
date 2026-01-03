@@ -72,7 +72,7 @@ class AppTheme {
       );
 
   // Card Theme
-  static CardThemeData get _cardTheme => CardThemeData(
+  static CardTheme get _cardTheme => CardTheme(
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -188,8 +188,7 @@ class AppTheme {
       );
 
   // Input Decoration Theme
-  static InputDecorationTheme get _inputDecorationTheme =>
-      InputDecorationTheme(
+  static InputDecorationTheme get _inputDecorationTheme => InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surface,
         border: OutlineInputBorder(
@@ -244,7 +243,7 @@ class AppTheme {
       );
 
   // Dialog Theme
-  static DialogThemeData get _dialogTheme => DialogThemeData(
+  static DialogTheme get _dialogTheme => DialogTheme(
         backgroundColor: AppColors.surface,
         elevation: 8,
         shape: RoundedRectangleBorder(

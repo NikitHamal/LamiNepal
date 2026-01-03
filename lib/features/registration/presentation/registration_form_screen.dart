@@ -39,7 +39,11 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
   String? _selectedReligion;
   String? _selectedCaste;
 
-  final List<String> _genderOptions = ['पुरुष (Male)', 'महिला (Female)', 'अन्य (Other)'];
+  final List<String> _genderOptions = [
+    'पुरुष (Male)',
+    'महिला (Female)',
+    'अन्य (Other)'
+  ];
   final List<String> _maritalStatusOptions = [
     'अविवाहित (Single)',
     'विधुर/विधवा (Widowed)',
@@ -74,7 +78,8 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
     final result = await showDialog<NepaliDate>(
       context: context,
       builder: (context) => _BsDatePickerDialog(
-        initialDate: _dobNepali ?? NepaliDate(year: today.year - 20, month: 1, day: 1),
+        initialDate:
+            _dobNepali ?? NepaliDate(year: today.year - 20, month: 1, day: 1),
         minYear: today.year - 80,
         maxYear: today.year - 18,
       ),
@@ -162,7 +167,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                   Text(
                     'Registration submitted successfully',
                     style: AppTypography.labelSmall.copyWith(
-                      color: AppColors.white.withValues(alpha: 0.9),
+                      color: AppColors.white.withOpacity(0.9),
                     ),
                   ),
                 ],
@@ -259,7 +264,8 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                         value: _selectedGender,
                         decoration: _inputDecoration('छान्नुहोस्'),
                         items: _genderOptions
-                            .map((g) => DropdownMenuItem(value: g, child: Text(g)))
+                            .map((g) =>
+                                DropdownMenuItem(value: g, child: Text(g)))
                             .toList(),
                         onChanged: (value) {
                           setState(() {
@@ -366,7 +372,8 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                         value: _selectedMaritalStatus,
                         decoration: _inputDecoration('छान्नुहोस्'),
                         items: _maritalStatusOptions
-                            .map((s) => DropdownMenuItem(value: s, child: Text(s)))
+                            .map((s) =>
+                                DropdownMenuItem(value: s, child: Text(s)))
                             .toList(),
                         onChanged: (value) {
                           setState(() {
@@ -468,7 +475,8 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                       isRequired: true,
                       child: TextFormField(
                         controller: _addressController,
-                        decoration: _inputDecoration('टोल, वडा नं., गाउँपालिका/नगरपालिका'),
+                        decoration: _inputDecoration(
+                            'टोल, वडा नं., गाउँपालिका/नगरपालिका'),
                         maxLines: 2,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
@@ -547,7 +555,8 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                         value: _selectedReligion,
                         decoration: _inputDecoration('छान्नुहोस्'),
                         items: _religionOptions
-                            .map((r) => DropdownMenuItem(value: r, child: Text(r)))
+                            .map((r) =>
+                                DropdownMenuItem(value: r, child: Text(r)))
                             .toList(),
                         onChanged: (value) {
                           setState(() {
@@ -606,8 +615,18 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
 
   String _getMonthName(int month) {
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
     ];
     return months[month - 1];
   }
@@ -700,7 +719,8 @@ class _StepDot extends StatelessWidget {
                 : Text(
                     '$step',
                     style: AppTypography.labelMedium.copyWith(
-                      color: isActive ? AppColors.white : AppColors.textTertiary,
+                      color:
+                          isActive ? AppColors.white : AppColors.textTertiary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -745,15 +765,15 @@ class _FormHeader extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primaryRed.withValues(alpha: 0.1),
-            AppColors.peach.withValues(alpha: 0.5),
+            AppColors.primaryRed.withOpacity(0.1),
+            AppColors.peach.withOpacity(0.5),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.primaryRed.withValues(alpha: 0.2),
+          color: AppColors.primaryRed.withOpacity(0.2),
         ),
       ),
       child: Row(
@@ -762,7 +782,7 @@ class _FormHeader extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppColors.primaryRed.withValues(alpha: 0.15),
+              color: AppColors.primaryRed.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(
@@ -825,7 +845,7 @@ class _SectionHeader extends StatelessWidget {
           width: 36,
           height: 36,
           decoration: BoxDecoration(
-            color: AppColors.primaryRed.withValues(alpha: 0.1),
+            color: AppColors.primaryRed.withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(icon, color: AppColors.primaryRed, size: 18),
@@ -1200,7 +1220,7 @@ class _BsDatePickerDialogState extends State<_BsDatePickerDialog> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColors.peach.withValues(alpha: 0.5),
+                color: AppColors.peach.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -1243,7 +1263,10 @@ class _BsDatePickerDialogState extends State<_BsDatePickerDialog> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop(
-                        NepaliDate(year: _selectedYear, month: _selectedMonth, day: _selectedDay),
+                        NepaliDate(
+                            year: _selectedYear,
+                            month: _selectedMonth,
+                            day: _selectedDay),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -1288,7 +1311,7 @@ class _SubmitSection extends StatelessWidget {
         color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadow.withValues(alpha: 0.1),
+            color: AppColors.shadow.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, -4),
           ),
@@ -1301,7 +1324,7 @@ class _SubmitSection extends StatelessWidget {
             onPressed: isSubmitting ? null : onSubmit,
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryRed,
-              disabledBackgroundColor: AppColors.primaryRed.withValues(alpha: 0.5),
+              disabledBackgroundColor: AppColors.primaryRed.withOpacity(0.5),
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),

@@ -73,8 +73,10 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     // Service Cards
                     _ServiceCardsSection(
-                      onRegisterPressed: () => context.push(AppRoutes.registration),
-                      onConnectPressed: () => _launchUrl(AppConstants.youtubeChannel),
+                      onRegisterPressed: () =>
+                          context.push(AppRoutes.registration),
+                      onConnectPressed: () =>
+                          _launchUrl(AppConstants.youtubeChannel),
                     ),
                     const SizedBox(height: 24),
                     // Quick Links Section
@@ -85,7 +87,8 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     _QuickLinksSection(
                       onWebsiteTap: () => _launchUrl(AppConstants.websiteUrl),
-                      onYoutubeTap: () => _launchUrl(AppConstants.youtubeChannel),
+                      onYoutubeTap: () =>
+                          _launchUrl(AppConstants.youtubeChannel),
                       onFacebookTap: () => _launchUrl(AppConstants.facebookUrl),
                       onTiktokTap: () => _launchUrl(AppConstants.tiktokUrl),
                     ),
@@ -237,7 +240,7 @@ class _ServiceCardsSection extends StatelessWidget {
             tags: const ['वास्तु', 'कुण्डली', 'चिना'],
             buttonText: 'सम्पर्क',
             buttonSubtext: 'CONNECT',
-            backgroundColor: AppColors.tealLight.withValues(alpha: 0.15),
+            backgroundColor: AppColors.tealLight.withOpacity(0.15),
             accentColor: AppColors.teal,
             onPressed: onConnectPressed,
           ),
@@ -279,7 +282,7 @@ class _ServiceCard extends StatelessWidget {
         color: backgroundColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: accentColor.withValues(alpha: 0.1),
+          color: accentColor.withOpacity(0.1),
           width: 1,
         ),
       ),
@@ -291,7 +294,7 @@ class _ServiceCard extends StatelessWidget {
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: accentColor.withValues(alpha: 0.15),
+              color: accentColor.withOpacity(0.15),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
@@ -324,20 +327,23 @@ class _ServiceCard extends StatelessWidget {
             Wrap(
               alignment: WrapAlignment.center,
               spacing: 6,
-              children: tags!.map((tag) => Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: accentColor.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  tag,
-                  style: AppTypography.labelSmall.copyWith(
-                    color: accentColor,
-                    fontSize: 10,
-                  ),
-                ),
-              )).toList(),
+              children: tags!
+                  .map((tag) => Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: accentColor.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          tag,
+                          style: AppTypography.labelSmall.copyWith(
+                            color: accentColor,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ))
+                  .toList(),
             ),
           ],
           const SizedBox(height: 16),
@@ -367,7 +373,7 @@ class _ServiceCard extends StatelessWidget {
                   Text(
                     buttonSubtext,
                     style: AppTypography.labelSmall.copyWith(
-                      color: AppColors.white.withValues(alpha: 0.8),
+                      color: AppColors.white.withOpacity(0.8),
                       fontSize: 9,
                     ),
                   ),
@@ -404,7 +410,7 @@ class _QuickLinksSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadow.withValues(alpha: 0.06),
+            color: AppColors.shadow.withOpacity(0.06),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -471,7 +477,7 @@ class _QuickLinkItem extends StatelessWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
+                color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -521,7 +527,7 @@ class _FooterSection extends StatelessWidget {
           Text(
             'Version ${AppConstants.appVersion}',
             style: AppTypography.labelSmall.copyWith(
-              color: AppColors.textTertiary.withValues(alpha: 0.6),
+              color: AppColors.textTertiary.withOpacity(0.6),
               fontSize: 10,
             ),
           ),

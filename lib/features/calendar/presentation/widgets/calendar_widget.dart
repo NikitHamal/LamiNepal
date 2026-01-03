@@ -19,7 +19,8 @@ class NepaliCalendarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final today = NepaliDate.now();
     final gregorianToday = DateTime.now();
-    final calendarMonth = NepaliCalendarMonth(year: today.year, month: today.month);
+    final calendarMonth =
+        NepaliCalendarMonth(year: today.year, month: today.month);
 
     return GestureDetector(
       onTap: onTap,
@@ -29,7 +30,7 @@ class NepaliCalendarWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: AppColors.shadow.withValues(alpha: 0.08),
+              color: AppColors.shadow.withOpacity(0.08),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -163,8 +164,20 @@ class _DateInfoSection extends StatelessWidget {
   }
 
   String _getMonthName(int month) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
     return months[month - 1];
   }
 }
@@ -197,7 +210,9 @@ class _MiniMonthPreview extends StatelessWidget {
                 child: Text(
                   dayName[0],
                   style: AppTypography.labelSmall.copyWith(
-                    color: isSaturday ? AppColors.primaryRed : AppColors.textTertiary,
+                    color: isSaturday
+                        ? AppColors.primaryRed
+                        : AppColors.textTertiary,
                     fontWeight: FontWeight.w600,
                     fontSize: 10,
                   ),
@@ -248,11 +263,12 @@ class _MiniMonthPreview extends StatelessWidget {
                             color: isToday
                                 ? AppColors.white
                                 : !isCurrentMonth
-                                    ? AppColors.textTertiary.withValues(alpha: 0.5)
+                                    ? AppColors.textTertiary.withOpacity(0.5)
                                     : isSaturday
                                         ? AppColors.primaryRed
                                         : AppColors.textPrimary,
-                            fontWeight: isToday ? FontWeight.w700 : FontWeight.w400,
+                            fontWeight:
+                                isToday ? FontWeight.w700 : FontWeight.w400,
                           ),
                         ),
                       ),
@@ -373,7 +389,7 @@ class NepaliCalendarCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primaryRed.withValues(alpha: 0.3),
+              color: AppColors.primaryRed.withOpacity(0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -386,7 +402,7 @@ class NepaliCalendarCard extends StatelessWidget {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: AppColors.white.withValues(alpha: 0.2),
+                color: AppColors.white.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Center(
@@ -416,14 +432,14 @@ class NepaliCalendarCard extends StatelessWidget {
                   Text(
                     today.dayNameNepali,
                     style: AppTypography.bodyMedium.copyWith(
-                      color: AppColors.white.withValues(alpha: 0.9),
+                      color: AppColors.white.withOpacity(0.9),
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     '${_getFullMonthName(gregorianToday.month)} ${gregorianToday.day}, ${gregorianToday.year}',
                     style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.white.withValues(alpha: 0.7),
+                      color: AppColors.white.withOpacity(0.7),
                     ),
                   ),
                 ],
@@ -432,7 +448,7 @@ class NepaliCalendarCard extends StatelessWidget {
             // Arrow
             Icon(
               Icons.chevron_right_rounded,
-              color: AppColors.white.withValues(alpha: 0.7),
+              color: AppColors.white.withOpacity(0.7),
               size: 28,
             ),
           ],
@@ -442,8 +458,20 @@ class NepaliCalendarCard extends StatelessWidget {
   }
 
   String _getFullMonthName(int month) {
-    const months = ['January', 'February', 'March', 'April', 'May', 'June',
-                    'July', 'August', 'September', 'October', 'November', 'December'];
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
     return months[month - 1];
   }
 }

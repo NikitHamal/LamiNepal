@@ -21,4 +21,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LAMINEPAL_02724357_6C8BB }}'
           channelId: live
           projectId: laminepal-02724357-6c8bb
-          entryPoint: ./build/web
+          entryPoint: .

@@ -128,7 +128,7 @@ class _SplashScreenState extends State<SplashScreen>
                           Text(
                             'Find the light to your life',
                             style: AppTypography.bodyMedium.copyWith(
-                              color: AppColors.white.withValues(alpha: 0.9),
+                              color: AppColors.white.withOpacity(0.9),
                               letterSpacing: 0.5,
                             ),
                           ),
@@ -136,7 +136,7 @@ class _SplashScreenState extends State<SplashScreen>
                           Text(
                             'तपाईंको जीवनमा प्रकाश खोज्नुहोस्',
                             style: AppTypography.bodySmall.copyWith(
-                              color: AppColors.white.withValues(alpha: 0.7),
+                              color: AppColors.white.withOpacity(0.7),
                             ),
                           ),
                         ],

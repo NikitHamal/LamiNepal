@@ -162,7 +162,7 @@ class _MonthHeader extends StatelessWidget {
                 Text(
                   gregorianRange,
                   style: AppTypography.bodySmall.copyWith(
-                    color: AppColors.white.withValues(alpha: 0.6),
+                    color: AppColors.white.withOpacity(0.6),
                   ),
                 ),
               ],
@@ -175,7 +175,7 @@ class _MonthHeader extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: AppColors.white.withValues(alpha: 0.3),
+                    color: AppColors.white.withOpacity(0.3),
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -233,7 +233,7 @@ class _NavButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: AppColors.white.withValues(alpha: 0.1),
+          color: AppColors.white.withOpacity(0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Icon(icon, color: AppColors.white, size: 20),
@@ -326,7 +326,7 @@ class _CalendarGrid extends StatelessWidget {
                           color: isSelected
                               ? AppColors.teal
                               : isToday
-                                  ? AppColors.primaryRed.withValues(alpha: 0.3)
+                                  ? AppColors.primaryRed.withOpacity(0.3)
                                   : null,
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -335,7 +335,8 @@ class _CalendarGrid extends StatelessWidget {
                           children: [
                             // Nepali date
                             Text(
-                              NepaliCalendar.toNepaliNumeral(day.nepaliDate.day),
+                              NepaliCalendar.toNepaliNumeral(
+                                  day.nepaliDate.day),
                               style: AppTypography.titleSmall.copyWith(
                                 color: !isCurrentMonth
                                     ? AppColors.white.withValues(alpha: 0.3)
@@ -355,12 +356,13 @@ class _CalendarGrid extends StatelessWidget {
                               style: AppTypography.labelSmall.copyWith(
                                 fontSize: 9,
                                 color: !isCurrentMonth
-                                    ? AppColors.white.withValues(alpha: 0.2)
+                                    ? AppColors.white.withOpacity(0.2)
                                     : isSelected || isToday
-                                        ? AppColors.white.withValues(alpha: 0.8)
+                                        ? AppColors.white.withOpacity(0.8)
                                         : isSaturday
-                                            ? AppColors.primaryRed.withValues(alpha: 0.7)
-                                            : AppColors.white.withValues(alpha: 0.5),
+                                            ? AppColors.primaryRed
+                                                .withOpacity(0.7)
+                                            : AppColors.white.withOpacity(0.5),
                               ),
                             ),
                           ],
@@ -427,14 +429,14 @@ class _DateDetails extends StatelessWidget {
                   Text(
                     selectedDate.dayNameNepali,
                     style: AppTypography.bodyMedium.copyWith(
-                      color: AppColors.primaryRed.withValues(alpha: 0.8),
+                      color: AppColors.primaryRed.withOpacity(0.8),
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     '${_getFullMonthName(gregorianDate.month)} ${gregorianDate.day}, ${gregorianDate.year}',
                     style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.primaryRed.withValues(alpha: 0.7),
+                      color: AppColors.primaryRed.withOpacity(0.7),
                     ),
                   ),
                 ],
@@ -530,8 +532,20 @@ class _DateDetails extends StatelessWidget {
   }
 
   String _getFullMonthName(int month) {
-    const months = ['January', 'February', 'March', 'April', 'May', 'June',
-                    'July', 'August', 'September', 'October', 'November', 'December'];
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
     return months[month - 1];
   }
 }
@@ -553,13 +567,13 @@ class _InfoRow extends StatelessWidget {
         Text(
           label,
           style: AppTypography.bodySmall.copyWith(
-            color: AppColors.white.withValues(alpha: 0.7),
+            color: AppColors.white.withOpacity(0.7),
           ),
         ),
         Text(
           subLabel,
           style: AppTypography.labelSmall.copyWith(
-            color: AppColors.white.withValues(alpha: 0.5),
+            color: AppColors.white.withOpacity(0.5),
           ),
         ),
       ],
@@ -575,7 +589,8 @@ class _MoonPhaseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Simple moon phase calculation (approximate)
-    final daysSinceNewMoon = ((date.millisecondsSinceEpoch / 86400000) % 29.53).round();
+    final daysSinceNewMoon =
+        ((date.millisecondsSinceEpoch / 86400000) % 29.53).round();
     final phase = _getMoonPhase(daysSinceNewMoon);
 
     return Column(
@@ -587,7 +602,7 @@ class _MoonPhaseWidget extends StatelessWidget {
             shape: BoxShape.circle,
             gradient: RadialGradient(
               colors: [
-                AppColors.white.withValues(alpha: 0.8),
+                AppColors.white.withOpacity(0.8),
                 AppColors.white.withValues(alpha: 0.3),
               ],
             ),
@@ -604,7 +619,7 @@ class _MoonPhaseWidget extends StatelessWidget {
         Text(
           phase,
           style: AppTypography.labelSmall.copyWith(
-            color: AppColors.white.withValues(alpha: 0.6),
+            color: AppColors.white.withOpacity(0.6),
             fontSize: 10,
           ),
         ),
@@ -667,13 +682,14 @@ class _EventsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final event = NepaliDatesData.getEvent(selectedDate.month, selectedDate.day);
+    final event =
+        NepaliDatesData.getEvent(selectedDate.month, selectedDate.day);
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.white.withValues(alpha: 0.05),
+        color: AppColors.white.withOpacity(0.05),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -701,7 +717,7 @@ class _EventsSection extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: AppColors.primaryRed.withValues(alpha: 0.2),
+                color: AppColors.primaryRed.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(

@@ -32,7 +32,8 @@ class _RegistrationDocumentsScreenState
       titleNepali: 'कम्पनी दर्ता प्रमाणपत्र',
       titleEnglish: 'Company Registration',
       descriptionNepali: 'लामी नेपालको आधिकारिक कम्पनी दर्ता प्रमाणपत्र',
-      descriptionEnglish: 'Official company registration certificate of Lami Nepal',
+      descriptionEnglish:
+          'Official company registration certificate of Lami Nepal',
     ),
   ];
 
@@ -214,7 +215,8 @@ class _StepDot extends StatelessWidget {
                 : Text(
                     '$step',
                     style: AppTypography.labelMedium.copyWith(
-                      color: isActive ? AppColors.white : AppColors.textTertiary,
+                      color:
+                          isActive ? AppColors.white : AppColors.textTertiary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -258,10 +260,10 @@ class _DocumentsHeader extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.tealLight.withValues(alpha: 0.15),
+        color: AppColors.tealLight.withOpacity(0.15),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.teal.withValues(alpha: 0.3),
+          color: AppColors.teal.withOpacity(0.3),
         ),
       ),
       child: Row(
@@ -270,7 +272,7 @@ class _DocumentsHeader extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppColors.teal.withValues(alpha: 0.15),
+              color: AppColors.teal.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(
@@ -328,7 +330,7 @@ class _DocumentCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadow.withValues(alpha: 0.1),
+            color: AppColors.shadow.withOpacity(0.1),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -523,7 +525,7 @@ class _BottomActionSection extends StatelessWidget {
         color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadow.withValues(alpha: 0.1),
+            color: AppColors.shadow.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, -4),
           ),
