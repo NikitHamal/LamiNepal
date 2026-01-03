@@ -162,8 +162,8 @@ class AppTheme {
         elevation: 8,
         height: 70,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        labelTextStyle: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return AppTypography.labelSmall.copyWith(
               color: AppColors.primaryRed,
               fontWeight: FontWeight.w600,
@@ -173,8 +173,8 @@ class AppTheme {
             color: AppColors.textTertiary,
           );
         }),
-        iconTheme: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return const IconThemeData(
               color: AppColors.primaryRed,
               size: 24,

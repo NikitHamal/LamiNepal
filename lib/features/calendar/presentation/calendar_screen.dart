@@ -3,9 +3,10 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../data/nepali_calendar.dart';
 import '../data/nepali_dates_data.dart';
+import 'dart:math' as math;
 
 /// Full calendar screen with detailed view
-/// Inspired by Hamro Patro's detailed calendar interface
+/// Redesigned for premium visual excellence with Lami Nepal's brand identity
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
 
@@ -16,20 +17,12 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   late NepaliDate _selectedDate;
   late NepaliDate _displayedMonth;
-  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
     _selectedDate = NepaliDate.now();
     _displayedMonth = _selectedDate;
-    _pageController = PageController(initialPage: 500);
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
   }
 
   void _goToToday() {
@@ -38,7 +31,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
       _selectedDate = today;
       _displayedMonth = today;
     });
-    _pageController.jumpToPage(500);
   }
 
   void _changeMonth(int delta) {
@@ -50,70 +42,94 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A2E),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF1A1A2E),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Text(
-          'नेपाली पात्रो',
-          style: AppTypography.titleLarge.copyWith(
-            color: AppColors.white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.share_outlined, color: AppColors.white),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.close, color: AppColors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          // Month header
-          _MonthHeader(
-            displayedMonth: _displayedMonth,
-            onPreviousMonth: () => _changeMonth(-1),
-            onNextMonth: () => _changeMonth(1),
-            onToday: _goToToday,
-          ),
-          // Calendar grid
-          Expanded(
-            child: Column(
-              children: [
-                // Calendar
-                _CalendarGrid(
-                  displayedMonth: _displayedMonth,
-                  selectedDate: _selectedDate,
-                  onDateSelected: (date) {
-                    setState(() {
-                      _selectedDate = date;
-                    });
-                  },
+      backgroundColor: AppColors.background,
+      body: CustomScrollView(
+        slivers: [
+          // Premium Custom AppBar
+          SliverAppBar(
+            expandedHeight: 120,
+            pinned: true,
+            floating: false,
+            backgroundColor: AppColors.primaryRed,
+            elevation: 0,
+            leading: IconButton(
+              icon:
+                  const Icon(Icons.arrow_back_rounded, color: AppColors.white),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            actions: [
+              TextButton.icon(
+                onPressed: _goToToday,
+                icon: const Icon(Icons.today_rounded,
+                    color: AppColors.white, size: 20),
+                label: Text(
+                  'आज',
+                  style:
+                      AppTypography.labelLarge.copyWith(color: AppColors.white),
                 ),
-                // Selected date details
-                Expanded(
-                  child: _DateDetails(
-                    selectedDate: _selectedDate,
-                    onNextDay: () {
-                      setState(() {
-                        _selectedDate = _selectedDate.addDays(1);
-                        if (_selectedDate.month != _displayedMonth.month) {
-                          _displayedMonth = _selectedDate;
-                        }
-                      });
-                    },
+              ),
+              const SizedBox(width: 8),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                'नेपाली पात्रो',
+                style: AppTypography.headlineSmall.copyWith(
+                  color: AppColors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              centerTitle: false,
+              titlePadding: const EdgeInsets.only(left: 56, bottom: 16),
+              background: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [AppColors.primaryRed, AppColors.primaryRedDark],
                   ),
                 ),
-              ],
+                child: Stack(
+                  children: [
+                    Positioned(
+                      right: -50,
+                      top: -50,
+                      child: Icon(
+                        Icons.calendar_month_rounded,
+                        size: 200,
+                        color: AppColors.white.withOpacity(0.05),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // Month Selection Header
+          SliverToBoxAdapter(
+            child: _MonthHeader(
+              displayedMonth: _displayedMonth,
+              onPreviousMonth: () => _changeMonth(-1),
+              onNextMonth: () => _changeMonth(1),
+            ),
+          ),
+
+          // Calendar Grid
+          SliverToBoxAdapter(
+            child: _CalendarGrid(
+              displayedMonth: _displayedMonth,
+              selectedDate: _selectedDate,
+              onDateSelected: (date) {
+                setState(() => _selectedDate = date);
+              },
+            ),
+          ),
+
+          // Date Details Section
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 32),
+              child: _DateDetails(selectedDate: _selectedDate),
             ),
           ),
         ],
@@ -122,127 +138,74 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 }
 
-/// Month navigation header
 class _MonthHeader extends StatelessWidget {
   final NepaliDate displayedMonth;
   final VoidCallback onPreviousMonth;
   final VoidCallback onNextMonth;
-  final VoidCallback onToday;
 
   const _MonthHeader({
     required this.displayedMonth,
     required this.onPreviousMonth,
     required this.onNextMonth,
-    required this.onToday,
   });
 
   @override
   Widget build(BuildContext context) {
-    final gregorianRange = NepaliCalendar.getGregorianMonthRange(
-      displayedMonth.year,
-      displayedMonth.month,
-    );
-
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Month/Year display
+          _NavIcon(icon: Icons.chevron_left_rounded, onTap: onPreviousMonth),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   '${displayedMonth.monthNameNepali} ${displayedMonth.yearNepali}',
                   style: AppTypography.titleLarge.copyWith(
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w600,
+                    color: AppColors.primaryRed,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 22,
                   ),
                 ),
+                const SizedBox(height: 2),
                 Text(
-                  gregorianRange,
-                  style: AppTypography.bodySmall.copyWith(
-                    color: AppColors.white.withOpacity(0.6),
-                  ),
+                  '${displayedMonth.monthName} • ${NepaliCalendar.getGregorianMonthRange(displayedMonth.year, displayedMonth.month)}',
+                  style: AppTypography.bodySmall
+                      .copyWith(color: AppColors.textSecondary),
                 ),
               ],
             ),
           ),
-          // Navigation buttons
-          Row(
-            children: [
-              // Today button
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColors.white.withOpacity(0.3),
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: InkWell(
-                  onTap: onToday,
-                  borderRadius: BorderRadius.circular(8),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    child: Text(
-                      'Today',
-                      style: AppTypography.labelMedium.copyWith(
-                        color: AppColors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              // Previous month
-              _NavButton(
-                icon: Icons.chevron_left,
-                onTap: onPreviousMonth,
-              ),
-              const SizedBox(width: 4),
-              // Next month
-              _NavButton(
-                icon: Icons.chevron_right,
-                onTap: onNextMonth,
-              ),
-            ],
-          ),
+          _NavIcon(icon: Icons.chevron_right_rounded, onTap: onNextMonth),
         ],
       ),
     );
   }
 }
 
-class _NavButton extends StatelessWidget {
+class _NavIcon extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
-
-  const _NavButton({
-    required this.icon,
-    required this.onTap,
-  });
+  const _NavIcon({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: AppColors.white.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(8),
+          color: AppColors.peach,
+          borderRadius: BorderRadius.circular(12),
         ),
-        child: Icon(icon, color: AppColors.white, size: 20),
+        child: Icon(icon, color: AppColors.primaryRed, size: 28),
       ),
     );
   }
 }
 
-/// Calendar grid showing the month
 class _CalendarGrid extends StatelessWidget {
   final NepaliDate displayedMonth;
   final NepaliDate selectedDate;
@@ -256,486 +219,393 @@ class _CalendarGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final calendarMonth = NepaliCalendarMonth(
-      year: displayedMonth.year,
-      month: displayedMonth.month,
-    );
-    final today = NepaliDate.now();
+    final month = NepaliCalendarMonth(
+        year: displayedMonth.year, month: displayedMonth.month);
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF16213E),
-        borderRadius: BorderRadius.circular(12),
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.shadow.withOpacity(0.06),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
       ),
       child: Column(
         children: [
-          // Day headers
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Row(
-              children: List.generate(7, (index) {
-                final dayName = NepaliCalendar.getDayNameShort(index + 1);
-                final isSaturday = index == 6;
-                return Expanded(
-                  child: Center(
-                    child: Text(
-                      dayName,
-                      style: AppTypography.labelSmall.copyWith(
-                        color: isSaturday
+          // Weekly headers
+          Row(
+            children: List.generate(7, (index) {
+              final isSat = index == 6;
+              return Expanded(
+                child: Center(
+                  child: Text(
+                    NepaliCalendar.getDayNameNepaliShort(index + 1),
+                    style: AppTypography.labelSmall.copyWith(
+                      color:
+                          isSat ? AppColors.primaryRed : AppColors.textTertiary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ),
+          const SizedBox(height: 12),
+          const Divider(height: 1),
+          const SizedBox(height: 8),
+          // Day grid
+          Wrap(
+            children: month.days.map((day) {
+              final isSelected = day.nepaliDate == selectedDate;
+              final isToday = day.isToday;
+              final hasEvent = NepaliDatesData.getEvent(
+                      day.nepaliDate.month, day.nepaliDate.day) !=
+                  null;
+
+              return SizedBox(
+                width: (MediaQuery.of(context).size.width - 64) / 7,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: InkWell(
+                    onTap: () => onDateSelected(day.nepaliDate),
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      margin: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: isSelected
                             ? AppColors.primaryRed
-                            : AppColors.white.withOpacity(0.6),
-                        fontWeight: FontWeight.w600,
+                            : (isToday ? AppColors.peach : null),
+                        borderRadius: BorderRadius.circular(12),
+                        border: isToday && !isSelected
+                            ? Border.all(
+                                color: AppColors.primaryRed, width: 1.5)
+                            : null,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            NepaliCalendar.toNepaliNumeral(day.nepaliDate.day),
+                            style: AppTypography.titleSmall.copyWith(
+                              color: !day.isCurrentMonth
+                                  ? AppColors.textTertiary.withOpacity(0.4)
+                                  : isSelected
+                                      ? AppColors.white
+                                      : (day.isHoliday
+                                          ? AppColors.primaryRed
+                                          : AppColors.textPrimary),
+                              fontWeight: isSelected || isToday
+                                  ? FontWeight.w800
+                                  : FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            day.gregorianDate.day.toString(),
+                            style: TextStyle(
+                              fontSize: 9,
+                              color: isSelected
+                                  ? AppColors.white.withOpacity(0.7)
+                                  : AppColors.textTertiary,
+                            ),
+                          ),
+                          if (hasEvent && day.isCurrentMonth)
+                            Container(
+                              width: 3,
+                              height: 3,
+                              margin: const EdgeInsets.only(top: 2),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? AppColors.white
+                                    : AppColors.teal,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   ),
-                );
-              }),
-            ),
+                ),
+              );
+            }).toList(),
           ),
-          // Date grid
-          ...List.generate(6, (weekIndex) {
-            final startIndex = weekIndex * 7;
-            if (startIndex >= calendarMonth.days.length) {
-              return const SizedBox.shrink();
-            }
-
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Row(
-                children: List.generate(7, (dayIndex) {
-                  final index = startIndex + dayIndex;
-                  if (index >= calendarMonth.days.length) {
-                    return const Expanded(child: SizedBox(height: 48));
-                  }
-
-                  final day = calendarMonth.days[index];
-                  final gregorianDate = day.gregorianDate;
-                  final isSaturday = dayIndex == 6;
-                  final isToday = day.isToday;
-                  final isSelected = day.nepaliDate == selectedDate;
-                  final isCurrentMonth = day.isCurrentMonth;
-
-                  return Expanded(
-                    child: GestureDetector(
-                      onTap: () => onDateSelected(day.nepaliDate),
-                      child: Container(
-                        height: 48,
-                        margin: const EdgeInsets.symmetric(horizontal: 2),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppColors.teal
-                              : isToday
-                                  ? AppColors.primaryRed.withOpacity(0.3)
-                                  : null,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // Nepali date
-                            Text(
-                              NepaliCalendar.toNepaliNumeral(
-                                  day.nepaliDate.day),
-                              style: AppTypography.titleSmall.copyWith(
-                                color: !isCurrentMonth
-                                    ? AppColors.white.withOpacity(0.3)
-                                    : isSelected || isToday
-                                        ? AppColors.white
-                                        : isSaturday
-                                            ? AppColors.primaryRed
-                                            : AppColors.white,
-                                fontWeight: isToday || isSelected
-                                    ? FontWeight.w700
-                                    : FontWeight.w400,
-                              ),
-                            ),
-                            // Gregorian date
-                            Text(
-                              '${gregorianDate.day}',
-                              style: AppTypography.labelSmall.copyWith(
-                                fontSize: 9,
-                                color: !isCurrentMonth
-                                    ? AppColors.white.withOpacity(0.2)
-                                    : isSelected || isToday
-                                        ? AppColors.white.withOpacity(0.8)
-                                        : isSaturday
-                                            ? AppColors.primaryRed
-                                                .withOpacity(0.7)
-                                            : AppColors.white.withOpacity(0.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            );
-          }),
-          const SizedBox(height: 8),
         ],
       ),
     );
   }
 }
 
-/// Selected date details section
 class _DateDetails extends StatelessWidget {
   final NepaliDate selectedDate;
-  final VoidCallback? onNextDay;
-
-  const _DateDetails({
-    required this.selectedDate,
-    this.onNextDay,
-  });
+  const _DateDetails({required this.selectedDate});
 
   @override
   Widget build(BuildContext context) {
-    final gregorianDate = selectedDate.toDateTime();
-    final nepalSamvat = selectedDate.year - 880; // Approximate NS calculation
+    final ad = selectedDate.toDateTime();
+    final event =
+        NepaliDatesData.getEvent(selectedDate.month, selectedDate.day);
+    final nepalSamvat = NepaliCalendar.toNepaliNumeral(selectedDate.year - 880);
+    final tithiInfo = _getTithiWithPaksha(ad);
+    final sunTimes = _getSunriseSunset(ad);
 
     return Container(
-      margin: const EdgeInsets.all(8),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFF16213E),
-        borderRadius: BorderRadius.circular(12),
-      ),
+      margin: const EdgeInsets.all(16),
       child: Column(
         children: [
-          // Date header
-          Row(
-            children: [
-              // Large date
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
+          // Main Date Card
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [AppColors.teal, AppColors.tealDark],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.teal.withOpacity(0.3),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
                     selectedDate.dayNepali,
                     style: AppTypography.displayMedium.copyWith(
-                      color: AppColors.primaryRed,
-                      fontWeight: FontWeight.w700,
-                      height: 1,
-                    ),
+                        color: AppColors.white, fontWeight: FontWeight.w800),
                   ),
-                  Text(
-                    '${selectedDate.monthNameNepali}  ${selectedDate.yearNepali}',
-                    style: AppTypography.titleMedium.copyWith(
-                      color: AppColors.primaryRed,
-                    ),
-                  ),
-                  Text(
-                    selectedDate.dayNameNepali,
-                    style: AppTypography.bodyMedium.copyWith(
-                      color: AppColors.primaryRed.withOpacity(0.8),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '${_getFullMonthName(gregorianDate.month)} ${gregorianDate.day}, ${gregorianDate.year}',
-                    style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.primaryRed.withOpacity(0.7),
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              // Navigation and info
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Row(
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: AppColors.white.withOpacity(0.3),
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          'Today',
-                          style: AppTypography.labelMedium.copyWith(
-                            color: AppColors.white,
-                          ),
-                        ),
+                      Text(
+                        '${selectedDate.monthNameNepali} ${selectedDate.yearNepali}',
+                        style: AppTypography.titleLarge
+                            .copyWith(color: AppColors.white),
                       ),
-                      const SizedBox(width: 8),
-                      InkWell(
-                        onTap: onNextDay,
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: AppColors.white.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(
-                            Icons.chevron_right,
-                            color: AppColors.white,
-                            size: 20,
-                          ),
-                        ),
+                      Text(
+                        selectedDate.dayNameNepali,
+                        style: AppTypography.bodyMedium
+                            .copyWith(color: AppColors.white.withOpacity(0.9)),
+                      ),
+                      const Divider(
+                          color: AppColors.white, height: 20, thickness: 0.5),
+                      Text(
+                        '${_getMonthName(ad.month)} ${ad.day}, ${ad.year}',
+                        style: AppTypography.labelLarge
+                            .copyWith(color: AppColors.white.withOpacity(0.8)),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  // Additional info
-                  _InfoRow(
-                    label: 'NS $nepalSamvat',
-                    subLabel: 'पोहेलाथ्व',
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Details Row (NS, Tithi, Sun)
+          Row(
+            children: [
+              _DetailCard(
+                  label: 'नेपाल सम्वत',
+                  value: nepalSamvat,
+                  icon: Icons.history_edu),
+              const SizedBox(width: 12),
+              _DetailCard(
+                  label: 'पक्ष / तिथि',
+                  value: tithiInfo,
+                  icon: Icons.brightness_4),
+            ],
+          ),
+
+          const SizedBox(height: 16),
+
+          // Sun Info Card
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: AppColors.peach),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _SunItem(
+                    icon: Icons.wb_sunny_rounded,
+                    time: sunTimes.$1,
+                    label: 'Sunrise',
+                    color: Colors.orange),
+                _SunItem(
+                    icon: Icons.wb_twilight_rounded,
+                    time: sunTimes.$2,
+                    label: 'Sunset',
+                    color: Colors.deepOrange),
+              ],
+            ),
+          ),
+
+          if (event != null) ...[
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.peach,
+                borderRadius: BorderRadius.circular(16),
+                border:
+                    Border.all(color: AppColors.primaryRed.withOpacity(0.2)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.flash_on_rounded,
+                      color: AppColors.primaryRed),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('आजको विशेष',
+                            style: AppTypography.labelSmall
+                                .copyWith(color: AppColors.textSecondary)),
+                        Text(event,
+                            style: AppTypography.titleMedium.copyWith(
+                                color: AppColors.primaryRed,
+                                fontWeight: FontWeight.w700)),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          // Moon phase
-          Row(
-            children: [
-              _MoonPhaseWidget(date: gregorianDate),
-              const SizedBox(width: 16),
-              // Sunrise/Sunset times (approximate for Kathmandu)
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _SunTimeWidget(
-                      icon: Icons.wb_sunny_outlined,
-                      time: '06:52',
-                      label: 'Sunrise',
-                      color: AppColors.warning,
-                    ),
-                    _SunTimeWidget(
-                      icon: Icons.nights_stay_outlined,
-                      time: '17:17',
-                      label: 'Sunset',
-                      color: AppColors.warning,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          // Events section
-          _EventsSection(selectedDate: selectedDate),
+            ),
+          ],
         ],
       ),
     );
   }
 
-  String _getFullMonthName(int month) {
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ];
-    return months[month - 1];
+  String _getMonthName(int month) => [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
+      ][month - 1];
+
+  (String, String) _getSunriseSunset(DateTime date) {
+    // Approximation for Kathmandu (27.7° N)
+    final dayOfYear = date.difference(DateTime(date.year, 1, 1)).inDays;
+    final sinFactor = math.sin((dayOfYear - 80) * 2 * math.pi / 365);
+
+    // In Katmandu sunrise varies ~6:55 (Jan) to ~5:10 (June)
+    // Sunset varies ~17:15 (Dec) to ~19:05 (July)
+    final sunriseHour = 6.05 - (0.85 * sinFactor);
+    final sunsetHour = 18.15 + (0.9 * sinFactor);
+
+    String format(double h) {
+      final hour = h.floor();
+      final min = ((h - hour) * 60).floor();
+      return '${hour.toString().padLeft(2, '0')}:${min.toString().padLeft(2, '0')}';
+    }
+
+    return (format(sunriseHour), format(sunsetHour));
+  }
+
+  String _getTithiWithPaksha(DateTime date) {
+    // Basic lunar age approximation
+    final age = ((date.millisecondsSinceEpoch / 86400000) % 29.53).round();
+    final paksha = (age < 15) ? 'शुक्ल' : 'कृष्ण';
+    final tithi = NepaliDatesData.tithiNames[age % 15];
+    return '$paksha $tithi';
   }
 }
 
-class _InfoRow extends StatelessWidget {
+class _DetailCard extends StatelessWidget {
   final String label;
-  final String subLabel;
-
-  const _InfoRow({
-    required this.label,
-    required this.subLabel,
-  });
+  final String value;
+  final IconData icon;
+  const _DetailCard(
+      {required this.label, required this.value, required this.icon});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Text(
-          label,
-          style: AppTypography.bodySmall.copyWith(
-            color: AppColors.white.withOpacity(0.7),
-          ),
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.peach),
         ),
-        Text(
-          subLabel,
-          style: AppTypography.labelSmall.copyWith(
-            color: AppColors.white.withOpacity(0.5),
-          ),
+        child: Column(
+          children: [
+            Icon(icon, color: AppColors.teal, size: 24),
+            const SizedBox(height: 8),
+            Text(label,
+                style: TextStyle(fontSize: 10, color: AppColors.textSecondary)),
+            Text(value,
+                style: AppTypography.titleSmall
+                    .copyWith(fontWeight: FontWeight.w700),
+                textAlign: TextAlign.center),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
 
-class _MoonPhaseWidget extends StatelessWidget {
-  final DateTime date;
-
-  const _MoonPhaseWidget({required this.date});
-
-  @override
-  Widget build(BuildContext context) {
-    // Simple moon phase calculation (approximate)
-    final daysSinceNewMoon =
-        ((date.millisecondsSinceEpoch / 86400000) % 29.53).round();
-    final phase = _getMoonPhase(daysSinceNewMoon);
-
-    return Column(
-      children: [
-        Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: RadialGradient(
-              colors: [
-                AppColors.white.withOpacity(0.8),
-                AppColors.white.withOpacity(0.3),
-              ],
-            ),
-          ),
-          child: Center(
-            child: Icon(
-              _getMoonIcon(daysSinceNewMoon),
-              color: const Color(0xFF1A1A2E),
-              size: 32,
-            ),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          phase,
-          style: AppTypography.labelSmall.copyWith(
-            color: AppColors.white.withOpacity(0.6),
-            fontSize: 10,
-          ),
-        ),
-      ],
-    );
-  }
-
-  String _getMoonPhase(int days) {
-    if (days < 4) return 'New Moon';
-    if (days < 11) return 'First Quarter';
-    if (days < 18) return 'Full Moon';
-    if (days < 25) return 'Last Quarter';
-    return 'New Moon';
-  }
-
-  IconData _getMoonIcon(int days) {
-    if (days < 4) return Icons.brightness_3;
-    if (days < 11) return Icons.brightness_2;
-    if (days < 18) return Icons.brightness_1;
-    if (days < 25) return Icons.brightness_2;
-    return Icons.brightness_3;
-  }
-}
-
-class _SunTimeWidget extends StatelessWidget {
+class _SunItem extends StatelessWidget {
   final IconData icon;
   final String time;
   final String label;
   final Color color;
-
-  const _SunTimeWidget({
-    required this.icon,
-    required this.time,
-    required this.label,
-    required this.color,
-  });
+  const _SunItem(
+      {required this.icon,
+      required this.time,
+      required this.label,
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
-        Icon(icon, color: color, size: 24),
-        const SizedBox(height: 4),
-        Text(
-          time,
-          style: AppTypography.titleSmall.copyWith(
-            color: color,
-            fontWeight: FontWeight.w600,
-          ),
+        Icon(icon, color: color, size: 32),
+        const SizedBox(width: 12),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(label,
+                style: TextStyle(fontSize: 10, color: AppColors.textSecondary)),
+            Text(time,
+                style: AppTypography.titleMedium
+                    .copyWith(fontWeight: FontWeight.w800, color: color)),
+          ],
         ),
       ],
-    );
-  }
-}
-
-class _EventsSection extends StatelessWidget {
-  final NepaliDate selectedDate;
-
-  const _EventsSection({required this.selectedDate});
-
-  @override
-  Widget build(BuildContext context) {
-    final event =
-        NepaliDatesData.getEvent(selectedDate.month, selectedDate.day);
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.white.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                'Events',
-                style: AppTypography.labelMedium.copyWith(
-                  color: AppColors.white.withOpacity(0.6),
-                ),
-              ),
-              const Spacer(),
-              Text(
-                'Saait This Month',
-                style: AppTypography.labelMedium.copyWith(
-                  color: AppColors.primaryRed,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          if (event != null)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppColors.primaryRed.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                event,
-                style: AppTypography.bodyMedium.copyWith(
-                  color: AppColors.white,
-                ),
-              ),
-            )
-          else
-            Text(
-              'No events for this day',
-              style: AppTypography.bodySmall.copyWith(
-                color: AppColors.white.withOpacity(0.5),
-              ),
-            ),
-        ],
-      ),
     );
   }
 }

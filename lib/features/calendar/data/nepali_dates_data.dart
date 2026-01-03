@@ -114,21 +114,18 @@ class NepaliDatesData {
   /// Nepali holidays and important dates
   /// Key: "month-day", Value: Holiday name
   static const Map<String, String> holidays = {
-    // National holidays
-    '1-1': 'नयाँ वर्ष', // New Year (Baishakh 1)
-    '1-11': 'लोकतन्त्र दिवस', // Democracy Day
-    '5-15': 'गाईजात्रा',
-    '9-1': 'माघे सक्रान्ति',
-    '11-7': 'महाशिवरात्रि',
-    '11-27': 'फागु पूर्णिमा',
+    // Fixed BS Holidays
+    '1-1': 'नयाँ वर्ष', // Baishakh 1
+    '1-11': 'लोकतन्त्र दिवस', // Baishakh 11
+    '2-15': 'गणतन्त्र दिवस', // Jestha 15
+    '6-3': 'संविधान दिवस', // Asoj 3
+    '9-27': 'पृथ्वी जयन्ती', // Poush 27
+    '10-1': 'माघे संक्रान्ति', // Magh 1
+    '10-16': 'शहीद दिवस', // Magh 16
+    '11-7': 'प्रजातन्त्र दिवस', // Falgun 7
   };
 
-  /// Get special events for a date
-  static String? getEvent(int month, int day) {
-    return holidays['$month-$day'];
-  }
-
-  /// Tithi names in Nepali
+  /// Tithi names for Shukla and Krishna Paksha
   static const List<String> tithiNames = [
     'प्रतिपदा',
     'द्वितीया',
@@ -147,6 +144,8 @@ class NepaliDatesData {
     'पूर्णिमा/औंसी'
   ];
 
-  /// Paksha (fortnight) names
-  static const List<String> pakshaNames = ['शुक्ल', 'कृष्ण'];
+  /// Get special events for a date
+  static String? getEvent(int month, int day) {
+    return holidays['$month-$day'];
+  }
 }

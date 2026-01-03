@@ -66,12 +66,12 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(4),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(4),
           child: LinearProgressIndicator(
             value: 0.33,
             backgroundColor: AppColors.primaryRedDark,
-            valueColor: const AlwaysStoppedAnimation<Color>(AppColors.white),
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
           ),
         ),
       ),
@@ -292,7 +292,7 @@ class _PolicyHeader extends StatelessWidget {
 class _PolicyContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _PolicySection(

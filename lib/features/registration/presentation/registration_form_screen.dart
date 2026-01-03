@@ -205,12 +205,12 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(4),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(4),
           child: LinearProgressIndicator(
             value: 1.0,
             backgroundColor: AppColors.primaryRedDark,
-            valueColor: const AlwaysStoppedAnimation<Color>(AppColors.white),
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
           ),
         ),
       ),
@@ -232,7 +232,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                     _FormHeader(),
                     const SizedBox(height: 24),
                     // Personal Information Section
-                    _SectionHeader(
+                    const _SectionHeader(
                       icon: Icons.person_outline,
                       titleNepali: 'व्यक्तिगत विवरण',
                       titleEnglish: 'Personal Information',
@@ -261,7 +261,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                       labelEnglish: 'Gender',
                       isRequired: true,
                       child: DropdownButtonFormField<String>(
-                        value: _selectedGender,
+                        initialValue: _selectedGender,
                         decoration: _inputDecoration('छान्नुहोस्'),
                         items: _genderOptions
                             .map((g) =>
@@ -335,7 +335,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                               ),
                               child: Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.calendar_today_outlined,
                                     color: AppColors.textTertiary,
                                     size: 20,
@@ -351,7 +351,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                                       ),
                                     ),
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.arrow_drop_down,
                                     color: AppColors.textTertiary,
                                   ),
@@ -369,7 +369,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                       labelEnglish: 'Marital Status',
                       isRequired: true,
                       child: DropdownButtonFormField<String>(
-                        value: _selectedMaritalStatus,
+                        initialValue: _selectedMaritalStatus,
                         decoration: _inputDecoration('छान्नुहोस्'),
                         items: _maritalStatusOptions
                             .map((s) =>
@@ -390,7 +390,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                     ),
                     const SizedBox(height: 24),
                     // Contact Information Section
-                    _SectionHeader(
+                    const _SectionHeader(
                       icon: Icons.phone_outlined,
                       titleNepali: 'सम्पर्क विवरण',
                       titleEnglish: 'Contact Information',
@@ -445,7 +445,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                     ),
                     const SizedBox(height: 24),
                     // Address Section
-                    _SectionHeader(
+                    const _SectionHeader(
                       icon: Icons.location_on_outlined,
                       titleNepali: 'ठेगाना',
                       titleEnglish: 'Address',
@@ -488,7 +488,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                     ),
                     const SizedBox(height: 24),
                     // Family Information Section
-                    _SectionHeader(
+                    const _SectionHeader(
                       icon: Icons.family_restroom_outlined,
                       titleNepali: 'पारिवारिक विवरण',
                       titleEnglish: 'Family Information',
@@ -540,7 +540,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                     ),
                     const SizedBox(height: 24),
                     // Religion & Caste Section
-                    _SectionHeader(
+                    const _SectionHeader(
                       icon: Icons.account_balance_outlined,
                       titleNepali: 'धर्म र जात',
                       titleEnglish: 'Religion & Caste',
@@ -552,7 +552,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
                       labelEnglish: 'Religion',
                       isRequired: true,
                       child: DropdownButtonFormField<String>(
-                        value: _selectedReligion,
+                        initialValue: _selectedReligion,
                         decoration: _inputDecoration('छान्नुहोस्'),
                         items: _religionOptions
                             .map((r) =>
@@ -641,19 +641,19 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
       fillColor: AppColors.white,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.border),
+        borderSide: const BorderSide(color: AppColors.border),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.border),
+        borderSide: const BorderSide(color: AppColors.border),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.primaryRed, width: 2),
+        borderSide: const BorderSide(color: AppColors.primaryRed, width: 2),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.error),
+        borderSide: const BorderSide(color: AppColors.error),
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
     );
@@ -1025,7 +1025,7 @@ class _BsDatePickerDialogState extends State<_BsDatePickerDialog> {
             // Header
             Row(
               children: [
-                Icon(Icons.calendar_month, color: AppColors.primaryRed),
+                const Icon(Icons.calendar_month, color: AppColors.primaryRed),
                 const SizedBox(width: 8),
                 Text(
                   'जन्म मिति छान्नुहोस्',
@@ -1245,7 +1245,7 @@ class _BsDatePickerDialogState extends State<_BsDatePickerDialog> {
                     onPressed: () => Navigator.of(context).pop(),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      side: BorderSide(color: AppColors.border),
+                      side: const BorderSide(color: AppColors.border),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -1335,7 +1335,7 @@ class _SubmitSection extends StatelessWidget {
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                         height: 20,
                         child: CircularProgressIndicator(

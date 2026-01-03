@@ -65,12 +65,12 @@ class _RegistrationDocumentsScreenState
             fontWeight: FontWeight.w600,
           ),
         ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(4),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(4),
           child: LinearProgressIndicator(
             value: 0.66,
             backgroundColor: AppColors.primaryRedDark,
-            valueColor: const AlwaysStoppedAnimation<Color>(AppColors.white),
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
           ),
         ),
       ),
@@ -358,7 +358,7 @@ class _DocumentCard extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.image_not_supported_outlined,
                               size: 64,
                               color: AppColors.textTertiary,
@@ -389,9 +389,9 @@ class _DocumentCard extends StatelessWidget {
           // Document info
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColors.white,
-              borderRadius: const BorderRadius.vertical(
+              borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(16),
               ),
             ),
@@ -400,7 +400,7 @@ class _DocumentCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.description_outlined,
                       color: AppColors.primaryRed,
                       size: 20,
@@ -439,7 +439,7 @@ class _DocumentCard extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.zoom_in,
                             size: 14,
                             color: AppColors.textTertiary,
@@ -547,7 +547,7 @@ class _BottomActionSection extends StatelessWidget {
                       label: const Text('Previous'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.textSecondary,
-                        side: BorderSide(color: AppColors.border),
+                        side: const BorderSide(color: AppColors.border),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -575,7 +575,7 @@ class _BottomActionSection extends StatelessWidget {
                       label: const Text('Next'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.primaryRed,
-                        side: BorderSide(color: AppColors.primaryRed),
+                        side: const BorderSide(color: AppColors.primaryRed),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
