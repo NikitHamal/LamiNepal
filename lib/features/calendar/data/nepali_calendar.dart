@@ -269,8 +269,9 @@ class NepaliCalendar {
       'Dec'
     ];
 
-    if (first.month == last.month)
+    if (first.month == last.month) {
       return '${months[first.month - 1]} ${first.year}';
+    }
     return '${months[first.month - 1]}/${months[last.month - 1]} ${first.year}';
   }
 }

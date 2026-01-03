@@ -43,97 +43,219 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: CustomScrollView(
-        slivers: [
-          // Premium Custom AppBar
-          SliverAppBar(
-            expandedHeight: 120,
-            pinned: true,
-            floating: false,
-            backgroundColor: AppColors.primaryRed,
-            elevation: 0,
-            leading: IconButton(
-              icon:
-                  const Icon(Icons.arrow_back_rounded, color: AppColors.white),
-              onPressed: () => Navigator.of(context).pop(),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.shadow.withOpacity(0.05),
+                  blurRadius: 30,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-            actions: [
-              TextButton.icon(
-                onPressed: _goToToday,
-                icon: const Icon(Icons.today_rounded,
-                    color: AppColors.white, size: 20),
-                label: Text(
-                  'आज',
-                  style:
-                      AppTypography.labelLarge.copyWith(color: AppColors.white),
-                ),
-              ),
-              const SizedBox(width: 8),
-            ],
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                'नेपाली पात्रो',
-                style: AppTypography.headlineSmall.copyWith(
-                  color: AppColors.white,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              centerTitle: false,
-              titlePadding: const EdgeInsets.only(left: 56, bottom: 16),
-              background: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [AppColors.primaryRed, AppColors.primaryRedDark],
+            child: CustomScrollView(
+              slivers: [
+                // Premium Custom AppBar
+                SliverAppBar(
+                  expandedHeight: 120,
+                  pinned: true,
+                  floating: false,
+                  backgroundColor: AppColors.primaryRed,
+                  elevation: 0,
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back_rounded,
+                        color: AppColors.white),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  actions: [
+                    TextButton.icon(
+                      onPressed: _goToToday,
+                      icon: const Icon(Icons.today_rounded,
+                          color: AppColors.white, size: 20),
+                      label: Text(
+                        'आज',
+                        style: AppTypography.labelLarge
+                            .copyWith(color: AppColors.white),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Text(
+                      'नेपाली पात्रो',
+                      style: AppTypography.headlineSmall.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    centerTitle: false,
+                    titlePadding: const EdgeInsets.only(left: 56, bottom: 16),
+                    background: Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            AppColors.primaryRed,
+                            AppColors.primaryRedDark
+                          ],
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            right: -50,
+                            top: -50,
+                            child: Icon(
+                              Icons.calendar_month_rounded,
+                              size: 200,
+                              color: AppColors.white.withOpacity(0.05),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                child: Stack(
+
+                // Month Selection Header
+                SliverToBoxAdapter(
+                  child: _MonthHeader(
+                    displayedMonth: _displayedMonth,
+                    onPreviousMonth: () => _changeMonth(-1),
+                    onNextMonth: () => _changeMonth(1),
+                    onMonthYearTap: () => _showMonthYearPicker(context),
+                  ),
+                ),
+
+                // Calendar Grid
+                SliverToBoxAdapter(
+                  child: _CalendarGrid(
+                    displayedMonth: _displayedMonth,
+                    selectedDate: _selectedDate,
+                    onDateSelected: (date) {
+                      setState(() => _selectedDate = date);
+                    },
+                  ),
+                ),
+
+                // Date Details Section
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 32),
+                    child: _DateDetails(selectedDate: _selectedDate),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showMonthYearPicker(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        int selectedYear = _displayedMonth.year;
+        int selectedMonth = _displayedMonth.month;
+
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: const Text('महिना र वर्ष रोज्नुहोस्'),
+              content: SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Positioned(
-                      right: -50,
-                      top: -50,
-                      child: Icon(
-                        Icons.calendar_month_rounded,
-                        size: 200,
-                        color: AppColors.white.withOpacity(0.05),
-                      ),
+                    // Year Selector
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.remove_circle_outline),
+                          onPressed: () => setDialogState(() => selectedYear--),
+                        ),
+                        Text(
+                          NepaliCalendar.toNepaliNumeral(selectedYear),
+                          style: AppTypography.titleLarge,
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.add_circle_outline),
+                          onPressed: () => setDialogState(() => selectedYear++),
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                    // Month Grid
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: List.generate(12, (index) {
+                        final monthIndex = index + 1;
+                        final isSelected = selectedMonth == monthIndex;
+                        return InkWell(
+                          onTap: () =>
+                              setDialogState(() => selectedMonth = monthIndex),
+                          child: Container(
+                            width: 60,
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? AppColors.primaryRed
+                                  : AppColors.peach,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Center(
+                              child: Text(
+                                NepaliCalendar.getMonthNameNepali(monthIndex),
+                                style: AppTypography.labelSmall.copyWith(
+                                  color: isSelected
+                                      ? AppColors.white
+                                      : AppColors.primaryRed,
+                                  fontWeight: isSelected
+                                      ? FontWeight.w700
+                                      : FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
                     ),
                   ],
                 ),
               ),
-            ),
-          ),
-
-          // Month Selection Header
-          SliverToBoxAdapter(
-            child: _MonthHeader(
-              displayedMonth: _displayedMonth,
-              onPreviousMonth: () => _changeMonth(-1),
-              onNextMonth: () => _changeMonth(1),
-            ),
-          ),
-
-          // Calendar Grid
-          SliverToBoxAdapter(
-            child: _CalendarGrid(
-              displayedMonth: _displayedMonth,
-              selectedDate: _selectedDate,
-              onDateSelected: (date) {
-                setState(() => _selectedDate = date);
-              },
-            ),
-          ),
-
-          // Date Details Section
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 32),
-              child: _DateDetails(selectedDate: _selectedDate),
-            ),
-          ),
-        ],
-      ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('रद्द'),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryRed,
+                    foregroundColor: AppColors.white,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _displayedMonth = NepaliDate(
+                          year: selectedYear, month: selectedMonth, day: 1);
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: const Text('ठीक छ'),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }
@@ -142,11 +264,13 @@ class _MonthHeader extends StatelessWidget {
   final NepaliDate displayedMonth;
   final VoidCallback onPreviousMonth;
   final VoidCallback onNextMonth;
+  final VoidCallback onMonthYearTap;
 
   const _MonthHeader({
     required this.displayedMonth,
     required this.onPreviousMonth,
     required this.onNextMonth,
+    required this.onMonthYearTap,
   });
 
   @override
@@ -158,23 +282,34 @@ class _MonthHeader extends StatelessWidget {
         children: [
           _NavIcon(icon: Icons.chevron_left_rounded, onTap: onPreviousMonth),
           Expanded(
-            child: Column(
-              children: [
-                Text(
-                  '${displayedMonth.monthNameNepali} ${displayedMonth.yearNepali}',
-                  style: AppTypography.titleLarge.copyWith(
-                    color: AppColors.primaryRed,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 22,
+            child: InkWell(
+              onTap: onMonthYearTap,
+              borderRadius: BorderRadius.circular(12),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${displayedMonth.monthNameNepali} ${displayedMonth.yearNepali}',
+                        style: AppTypography.titleLarge.copyWith(
+                          color: AppColors.primaryRed,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 22,
+                        ),
+                      ),
+                      const Icon(Icons.arrow_drop_down,
+                          color: AppColors.primaryRed),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '${displayedMonth.monthName} • ${NepaliCalendar.getGregorianMonthRange(displayedMonth.year, displayedMonth.month)}',
-                  style: AppTypography.bodySmall
-                      .copyWith(color: AppColors.textSecondary),
-                ),
-              ],
+                  const SizedBox(height: 2),
+                  Text(
+                    '${displayedMonth.monthName} • ${NepaliCalendar.getGregorianMonthRange(displayedMonth.year, displayedMonth.month)}',
+                    style: AppTypography.bodySmall
+                        .copyWith(color: AppColors.textSecondary),
+                  ),
+                ],
+              ),
             ),
           ),
           _NavIcon(icon: Icons.chevron_right_rounded, onTap: onNextMonth),
@@ -191,16 +326,20 @@ class _NavIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: AppColors.peach,
-          borderRadius: BorderRadius.circular(12),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: AppColors.peach,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.primaryRed.withOpacity(0.2)),
+          ),
+          child: Icon(icon, color: AppColors.primaryRed, size: 28),
         ),
-        child: Icon(icon, color: AppColors.primaryRed, size: 28),
       ),
     );
   }
@@ -355,62 +494,58 @@ class _DateDetails extends StatelessWidget {
     final sunTimes = _getSunriseSunset(ad);
 
     return Container(
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
         children: [
-          // Main Date Card
+          // Main Date Card - Minimalized
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: [AppColors.teal, AppColors.tealDark],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.teal.withOpacity(0.3),
-                  blurRadius: 15,
-                  offset: const Offset(0, 5),
+                  color: AppColors.teal.withOpacity(0.25),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
                     color: AppColors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
                     selectedDate.dayNepali,
-                    style: AppTypography.displayMedium.copyWith(
+                    style: AppTypography.displaySmall.copyWith(
                         color: AppColors.white, fontWeight: FontWeight.w800),
                   ),
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${selectedDate.monthNameNepali} ${selectedDate.yearNepali}',
-                        style: AppTypography.titleLarge
-                            .copyWith(color: AppColors.white),
+                        '${selectedDate.monthNameNepali} ${selectedDate.yearNepali}, ${selectedDate.dayNameNepali}',
+                        style: AppTypography.titleMedium.copyWith(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w600),
                       ),
-                      Text(
-                        selectedDate.dayNameNepali,
-                        style: AppTypography.bodyMedium
-                            .copyWith(color: AppColors.white.withOpacity(0.9)),
-                      ),
-                      const Divider(
-                          color: AppColors.white, height: 20, thickness: 0.5),
+                      const SizedBox(height: 2),
                       Text(
                         '${_getMonthName(ad.month)} ${ad.day}, ${ad.year}',
-                        style: AppTypography.labelLarge
-                            .copyWith(color: AppColors.white.withOpacity(0.8)),
+                        style: AppTypography.labelMedium
+                            .copyWith(color: AppColors.white.withOpacity(0.85)),
                       ),
                     ],
                   ),
@@ -419,9 +554,9 @@ class _DateDetails extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
 
-          // Details Row (NS, Tithi, Sun)
+          // Details Row (NS, Tithi) - More Compact
           Row(
             children: [
               _DetailCard(
@@ -566,7 +701,8 @@ class _DetailCard extends StatelessWidget {
             Icon(icon, color: AppColors.teal, size: 24),
             const SizedBox(height: 8),
             Text(label,
-                style: TextStyle(fontSize: 10, color: AppColors.textSecondary)),
+                style: const TextStyle(
+                    fontSize: 10, color: AppColors.textSecondary)),
             Text(value,
                 style: AppTypography.titleSmall
                     .copyWith(fontWeight: FontWeight.w700),
@@ -599,7 +735,8 @@ class _SunItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(label,
-                style: TextStyle(fontSize: 10, color: AppColors.textSecondary)),
+                style: const TextStyle(
+                    fontSize: 10, color: AppColors.textSecondary)),
             Text(time,
                 style: AppTypography.titleMedium
                     .copyWith(fontWeight: FontWeight.w800, color: color)),

@@ -40,7 +40,7 @@ class NepaliCalendarWidget extends StatelessWidget {
             // Header with date info
             Container(
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -49,7 +49,7 @@ class NepaliCalendarWidget extends StatelessWidget {
                     AppColors.primaryRedDark,
                   ],
                 ),
-                borderRadius: const BorderRadius.vertical(
+                borderRadius: BorderRadius.vertical(
                   top: Radius.circular(20),
                 ),
               ),
@@ -179,7 +179,7 @@ class NepaliCalendarWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.calendar_month_rounded,
                               size: 18,
                               color: AppColors.primaryRed,
@@ -193,7 +193,7 @@ class NepaliCalendarWidget extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 4),
-                            Icon(
+                            const Icon(
                               Icons.arrow_forward_rounded,
                               size: 16,
                               color: AppColors.primaryRed,
@@ -354,7 +354,7 @@ class NepaliCalendarCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
