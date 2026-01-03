@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
@@ -28,15 +27,6 @@ class CrashHandler {
       _handlePlatformError(error, stack);
       return true;
     };
-
-    // Handle isolate errors
-    Isolate.current.addErrorListener(RawReceivePort((pair) async {
-      final List<dynamic> errorAndStacktrace = pair;
-      _handleIsolateError(
-        errorAndStacktrace.first,
-        errorAndStacktrace.last,
-      );
-    }).sendPort);
 
     // Run app in guarded zone
     runZonedGuarded(
@@ -69,16 +59,6 @@ class CrashHandler {
 
   static void _handlePlatformError(Object error, StackTrace stack) {
     final errorLog = _formatErrorLog('Platform Error', error, stack);
-    _lastCrashLog = errorLog;
-    _showCrashScreen();
-  }
-
-  static void _handleIsolateError(dynamic error, dynamic stackTrace) {
-    final errorLog = _formatErrorLog(
-      'Isolate Error',
-      error,
-      stackTrace is StackTrace ? stackTrace : StackTrace.current,
-    );
     _lastCrashLog = errorLog;
     _showCrashScreen();
   }
@@ -242,7 +222,7 @@ class CrashScreen extends StatelessWidget {
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: AppColors.error.withValues(alpha: 0.1),
+                    color: AppColors.error.withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(

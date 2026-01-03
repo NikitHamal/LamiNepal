@@ -212,7 +212,7 @@ class _RegistrationFormScreenState extends State<RegistrationFormScreen> {
       body: Column(
         children: [
           // Step indicator
-          _StepIndicator(currentStep: 3),
+          const _StepIndicator(currentStep: 3),
           // Form content
           Expanded(
             child: SingleChildScrollView(

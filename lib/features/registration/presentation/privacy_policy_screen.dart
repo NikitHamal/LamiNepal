@@ -78,7 +78,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
       body: Column(
         children: [
           // Step indicator
-          _StepIndicator(currentStep: 1),
+          const _StepIndicator(currentStep: 1),
           // Privacy policy content
           Expanded(
             child: SingleChildScrollView(

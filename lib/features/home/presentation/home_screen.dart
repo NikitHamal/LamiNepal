@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     // Services Section Header
-                    _SectionHeader(
+                    const _SectionHeader(
                       title: 'Our Services',
                       titleNepali: 'हाम्रा सेवाहरू',
                     ),
@@ -78,7 +78,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     // Quick Links Section
-                    _SectionHeader(
+                    const _SectionHeader(
                       title: 'Quick Links',
                       titleNepali: 'द्रुत लिंकहरू',
                     ),

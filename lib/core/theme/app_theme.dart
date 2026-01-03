@@ -36,7 +36,7 @@ class AppTheme {
         primary: AppColors.primaryRed,
         primaryContainer: AppColors.peach,
         secondary: AppColors.teal,
-        secondaryContainer: AppColors.tealLight.withValues(alpha: 0.2),
+        secondaryContainer: AppColors.tealLight.withOpacity(0.2),
         tertiary: AppColors.peach,
         tertiaryContainer: AppColors.cream,
         surface: AppColors.surface,
@@ -72,7 +72,7 @@ class AppTheme {
       );
 
   // Card Theme
-  static CardTheme get _cardTheme => CardTheme(
+  static CardThemeData get _cardTheme => CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -90,7 +90,7 @@ class AppTheme {
           backgroundColor: AppColors.teal,
           foregroundColor: AppColors.textOnTeal,
           disabledBackgroundColor: AppColors.textTertiary,
-          disabledForegroundColor: AppColors.white.withValues(alpha: 0.7),
+          disabledForegroundColor: AppColors.white.withOpacity(0.7),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
@@ -162,8 +162,8 @@ class AppTheme {
         elevation: 8,
         height: 70,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        labelTextStyle: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) {
+        labelTextStyle: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.selected)) {
             return AppTypography.labelSmall.copyWith(
               color: AppColors.primaryRed,
               fontWeight: FontWeight.w600,
@@ -173,8 +173,8 @@ class AppTheme {
             color: AppColors.textTertiary,
           );
         }),
-        iconTheme: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) {
+        iconTheme: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.selected)) {
             return const IconThemeData(
               color: AppColors.primaryRed,
               size: 24,
@@ -244,7 +244,7 @@ class AppTheme {
       );
 
   // Dialog Theme
-  static DialogTheme get _dialogTheme => DialogTheme(
+  static DialogThemeData get _dialogTheme => DialogThemeData(
         backgroundColor: AppColors.surface,
         elevation: 8,
         shape: RoundedRectangleBorder(

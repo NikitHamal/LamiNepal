@@ -76,7 +76,7 @@ class _RegistrationDocumentsScreenState
       body: Column(
         children: [
           // Step indicator
-          _StepIndicator(currentStep: 2),
+          const _StepIndicator(currentStep: 2),
           // Header
           _DocumentsHeader(),
           // Document viewer
